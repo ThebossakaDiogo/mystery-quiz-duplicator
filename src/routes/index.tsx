@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, type ButtonHTMLAttributes, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ButtonHTMLAttributes, type FormEvent, type ReactNode } from "react";
 import female from "../assets/female.a214dfbb.png.asset.json";
 import male from "../assets/masculine.b27a3766.png.asset.json";
 import divino from "../assets/bg_divino.d0e06856.png.asset.json";
 import stop from "../assets/stop.f3d2a697.png.asset.json";
+import lecture from "../assets/leitura-final.mp4.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -88,7 +89,33 @@ function Quiz() {
       {step === 7 && <form className="quiz-inner" onSubmit={submitName}><h1 className="field-title">Qual é o seu Primeiro Nome?</h1><input className="field-input" placeholder="Digite seu nome" autoComplete="given-name" value={name} onChange={e => setName(e.target.value)} aria-label="Digite seu nome" />{error && <p className="form-error">{error}</p>}<QuizButton kind="continue" type="submit">Clique Aqui Para Continuar!</QuizButton></form>}
       {step === 8 && <div className="quiz-inner"><h1 className="loading-title">Carregando a sua leitura...</h1><span className="loading-wheel" /></div>}
       {step === 9 && <form className="quiz-inner" onSubmit={submitEmail}><p className="email-intro">Digite o seu <strong>e-mail</strong> para receber o restante da sua <strong>leitura personalizada...</strong></p><h1 className="field-title">Qual é o seu Email?</h1><input className="field-input email-input" type="email" placeholder="Digite seu Email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} aria-label="Digite seu Email" />{error && <p className="form-error">{error}</p>}<QuizButton kind="continue" type="submit">Clique para continuar</QuizButton></form>}
-      {step === 10 && <div className="video-screen"><h1 className="video-heading">{name}, sua leitura vai sair do ar em breve.</h1><p className="video-note">Essa é a sua última chance de assistir até o final.</p><div className="video-frame"><img className="video-art" src={divino.url} alt="" /><div className="video-overlay">{playing ? <span>Leitura personalizada</span> : <><img src={stop.url} alt="" /><span>Clique no botão abaixo…</span></>}</div></div><QuizButton kind="continue" onClick={() => setPlaying(previous => !previous)}>{playing ? "PAUSAR" : "COMEÇAR"}</QuizButton></div>}
+      {step === 10 && <div className="video-screen">
+        <h1 className="video-heading">{name}, sua leitura vai sair do ar em breve.</h1>
+        <p className="video-note">Essa é a sua última chance de assistir até o final.</p>
+        <div className="video-frame">
+          <img className="video-backdrop" src={divino.url} alt="" />
+          <video
+            ref={videoRef}
+            className="video-art"
+            src={lecture.url}
+            autoPlay
+            muted
+            playsInline
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onClick={() => { const video = videoRef.current; if (!video) return; if (video.paused) { void video.play(); } else { video.pause(); } }}
+          />
+          {muted && <button type="button" className="unmute-overlay" onClick={unmute}>
+            <strong>Seu vídeo já começou</strong>
+            <span className="unmute-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none" /><line x1="23" y1="9" x2="17" y2="15" /><line x1="17" y1="9" x2="23" y2="15" /></svg>
+            </span>
+            <strong>Clique para ouvir</strong>
+          </button>}
+          {!playing && !muted && <div className="video-paused"><img src={stop.url} alt="" /><span>Clique no botão abaixo…</span></div>}
+        </div>
+        <QuizButton kind="continue" onClick={() => { const video = videoRef.current; if (!video) return; if (video.paused) { void video.play(); } else { video.pause(); } }}>{playing ? "PAUSAR" : "COMEÇAR"}</QuizButton>
+      </div>}
     </section>
   </main>;
 }
