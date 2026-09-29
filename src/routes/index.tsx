@@ -82,7 +82,7 @@ function Quiz() {
       {step === 1 && options("Clique no mês em que você nasceu:", months, "mes", "months")}
       {step === 2 && options("Informe o Dia do seu Nascimento:", Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, "0")), "dia", "days")}
       {step === 3 && options("Em qual Década você nasceu?", Array.from({ length: 11 }, (_, i) => String(1910 + i * 10)), "decada", "decades")}
-      {step === 4 && options("Em que Ano você nasceu?", Array.from({ length: 10 }, (_, i) => String(Number(answers.decada || 1910) + i)), "ano", "years")}
+      {step === 4 && options("Em que Ano você nasceu?", Array.from({ length: 10 }, (_, i) => String(Number(answers["decada"] || 1910) + i)), "ano", "years")}
       {step === 5 && pictures("QUAL É O SEU ESTADO CIVIL?", marital, "estadoCivil", "marital")}
       {step === 6 && pictures("QUAL O MAIOR DESAFIO DA SUA VIDA NESSE MOMENTO?", challenges, "desafio", "challenge")}
       {step === 7 && <form className="quiz-inner" onSubmit={submitName}><h1 className="field-title">Qual é o seu Primeiro Nome?</h1><input className="field-input" placeholder="Digite seu nome" autoComplete="given-name" value={name} onChange={e => setName(e.target.value)} aria-label="Digite seu nome" />{error && <p className="form-error">{error}</p>}<QuizButton kind="continue" type="submit">Clique Aqui Para Continuar!</QuizButton></form>}
