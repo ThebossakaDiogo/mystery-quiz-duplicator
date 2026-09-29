@@ -96,10 +96,14 @@ button { cursor: pointer; }
 .video-screen { width: 100%; max-width: 650px; text-align: center; }
 .video-heading { font-size: 22px; line-height: 1.3; margin: 0 0 20px; }
 .video-note { font-size: 16px; margin: 0 0 24px; }
-.video-frame { position: relative; aspect-ratio: 16/9; overflow: hidden; background: var(--secondary-foreground); margin: 0 auto 18px; }
-.video-art { width: 100%; height: 100%; object-fit: cover; opacity: .75; }
-.video-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary-foreground); font-weight: 700; padding: 20px; }
-.video-overlay img { width: 60px; height: 60px; object-fit: contain; }
+.video-frame { position: relative; width: min(100%, 400px); aspect-ratio: 404/720; overflow: hidden; background: var(--secondary-foreground); margin: 0 auto 18px; }
+.video-backdrop { position: absolute; inset: -12%; width: 124%; height: 124%; object-fit: cover; opacity: .35; filter: blur(6px); }
+.video-art { position: relative; width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
+.unmute-overlay { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(78%, 300px); padding: 18px 14px; border: 0; border-radius: 6px; background: var(--success); color: var(--primary-foreground); font-size: 17px; cursor: pointer; box-shadow: 0 4px 14px color-mix(in oklab, var(--foreground) 30%, transparent); }
+.unmute-overlay strong { font-size: 17px; }
+.unmute-icon { display: inline-flex; }
+.video-paused { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--primary-foreground); font-weight: 700; padding: 20px; background: color-mix(in oklab, var(--foreground) 45%, transparent); }
+.video-paused img { width: 56px; height: 56px; object-fit: contain; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 480px) {
  .quiz-stage { padding: 30px 16px 38px; }
