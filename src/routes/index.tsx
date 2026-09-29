@@ -40,6 +40,9 @@ function Quiz() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const unmute = () => { setMuted(false); const video = videoRef.current; if (video) { video.muted = false; void video.play(); } };
   const answer = (key: string, value: string) => { setAnswers(previous => ({ ...previous, [key]: value })); setError(""); setStep(previous => previous + 1); };
   const goBack = () => { setError(""); setStep(previous => Math.max(0, previous - 1)); };
   useEffect(() => {
