@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the quiz as a single stateful page at `/` with its question sequence in the page component; the reference quiz advances without URL changes.
+- Keep original quiz artwork as Lovable asset pointers under `src/assets`; the source images are externally hosted and should not be hotlinked.
