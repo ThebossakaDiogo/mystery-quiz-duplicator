@@ -11,3 +11,4 @@
 
 - Keep the quiz as a single stateful page at `/` with its question sequence in the page component; the reference quiz advances without URL changes.
 - Keep original quiz artwork as Lovable asset pointers under `src/assets`; the source images are externally hosted and should not be hotlinked.
+- The final-screen video is an H.264 MP4 hosted as the Lovable asset pointer src/assets/leitura-final.mp4.asset.json (single video + audio track, faststart). Never hotlink the original converteai CDN; never ship multi-audio-track MP4s (Chrome demuxer fails).
