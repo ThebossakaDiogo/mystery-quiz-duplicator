@@ -64,11 +64,12 @@ function videoP2(a: Record<string, string>) {
   return videoMapP2[woman ? (c ? "m_casada" : "m_solteira") : (c ? "h_casado" : "h_solteiro")];
 }
 
-function VideoPlayer({ src, onEnded, children }: { src: string; onEnded?: () => void; children?: ReactNode }) {
+function VideoPlayer({ src, onEnded, children, name = "" }: { src: string; onEnded?: () => void; children?: ReactNode; name?: string }) {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const ref = useRef<HTMLVideoElement>(null);
-  const toggle = () => { const v = ref.current; if (!v) return; if (muted) { setMuted(false); v.muted = false; void v.play(); return; } if (v.paused) void v.play(); else v.pause(); };
+  const [started, setStarted] = useState(false);
+  const toggle = () => { const v = ref.current; if (!v) return; setStarted(true); if (muted) { setMuted(false); v.muted = false; void v.play(); return; } if (v.paused) void v.play(); else v.pause(); };
   return <>
     <div className="video-frame">
       <img className="video-backdrop" src={divino.url} alt="" />
@@ -80,10 +81,10 @@ function VideoPlayer({ src, onEnded, children }: { src: string; onEnded?: () => 
         </span>
         <strong>Clique para ouvir</strong>
       </button>}
-      {!playing && !muted && !children && <div className="video-paused"><img src={stop.url} alt="" /><span>Clique no botão abaixo…</span></div>}
+      {!playing && !muted && !children && <div className="video-paused"><h3>{name && <span className="warning-name">{name}</span>}{name ? ", s" : "S"}ua leitura vai sair do ar em breve.</h3><img src={stop.url} alt="" /><span>Essa é a sua última chance de assistir até o final.<br />Clique no botão abaixo…</span></div>}
       {children}
     </div>
-    {!children && <QuizButton kind="continue" onClick={toggle}>{playing && !muted ? "PAUSAR" : "COMEÇAR"}</QuizButton>}
+    {!children && <QuizButton kind="continue" onClick={toggle}>{playing && !muted ? "PAUSAR" : started ? "CONTINUAR" : "COMEÇAR"}</QuizButton>}
   </>;
 }
 
@@ -94,6 +95,7 @@ function Quiz() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [showEmail, setShowEmail] = useState(false);
+  const [p2Done, setP2Done] = useState(false);
   const answer = (key: string, value: string) => { setAnswers(previous => ({ ...previous, [key]: value })); setError(""); setStep(previous => previous + 1); };
   const goBack = () => { setError(""); setStep(previous => Math.max(0, previous - 1)); };
   useEffect(() => {
@@ -148,7 +150,7 @@ function Quiz() {
       {step === 9 && <div className="video-screen">
         <h1 className="video-heading">{name}, sua leitura personalizada está pronta.</h1>
         <p className="video-note">Assista até o final para receber a segunda parte.</p>
-        <VideoPlayer src={videoUrl(videoP1(answers))} onEnded={() => setShowEmail(true)}>
+        <VideoPlayer name={name} src={videoUrl(videoP1(answers))} onEnded={() => setShowEmail(true)}>
           {showEmail && <form className="email-modal" onSubmit={submitEmail}>
             <p className="email-intro">Digite o seu <strong>e-mail</strong> para receber o restante da sua <strong>leitura personalizada...</strong></p>
             <h2 className="field-title">Qual é o seu Email?</h2>
@@ -161,8 +163,10 @@ function Quiz() {
       {step === 10 && <div className="video-screen">
         <h1 className="video-heading">{name}, sua leitura vai sair do ar em breve.</h1>
         <p className="video-note">Essa é a sua última chance de assistir até o final.</p>
-        <VideoPlayer src={videoUrl(videoP2(answers))} />
+        <VideoPlayer name={name} src={videoUrl(videoP2(answers))} onEnded={() => setP2Done(true)} />
+        {p2Done && <button type="button" className="pitch-button" onClick={() => setStep(11)}>Quero liberar meu nome</button>}
       </div>}
+      {step === 11 && <div className="pitch-screen"><VideoPlayer src={videoUrl("690fab829027e3855c01b91b")} /></div>}
     </section>
   </main>;
 }
