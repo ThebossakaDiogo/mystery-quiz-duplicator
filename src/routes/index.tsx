@@ -34,7 +34,7 @@ function QuizButton({ children, kind = "option", className = "", ...props }: Qui
 }
 
 const videoFiles = import.meta.glob<{ url: string }>("../assets/videos/*.mp4.asset.json", { eager: true, import: "default" });
-const videoUrl = (id: string) => videoFiles[`../assets/videos/${id}.mp4.asset.json`]?.url ?? (id === "6a594e360b945f764e51e622" ? lecture.url : "");
+const videoUrl = (id = "") => videoFiles[`../assets/videos/${id}.mp4.asset.json`]?.url ?? (id === "6a594e360b945f764e51e622" ? lecture.url : "");
 const videoMapP1: Record<string, string> = {
   H_20_S: "6a594d8f412fe7a4cac846a6", H_20_C: "6a594dca8be918d307f1ffc5", H_30_S: "6a596c21a2d2f1883da52197", H_30_C: "6a596c5016d31ce51390cc97",
   H_40_S: "6a5b974e59b73dc8ca51c3a3", H_40_C: "6a594ddec02fb54b9a399d6e", H_50_S: "6a596c3a2f1fdfc17ad015c8", H_50_C: "6a596c802cf68483ab16d32b",
