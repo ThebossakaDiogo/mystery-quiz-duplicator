@@ -104,6 +104,8 @@ button { cursor: pointer; }
 .unmute-icon { display: inline-flex; }
 .video-paused { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--primary-foreground); font-weight: 700; padding: 20px; background: color-mix(in oklab, var(--foreground) 45%, transparent); }
 .video-paused img { width: 56px; height: 56px; object-fit: contain; }
+.email-modal { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 24px 18px; background: var(--background); z-index: 5; }
+.email-modal .email-intro { font-size: 17px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 480px) {
  .quiz-stage { padding: 30px 16px 38px; }
